@@ -2,10 +2,12 @@ console.log('hello livy')
 
 const express = require('express')
 const shortid = require('shortid')
+const cors = require('cors')
 
 const server = express()
 
 server.use(express.json())
+server.use(cors())
 
 let users = [
     {
@@ -64,7 +66,6 @@ server.post('/api/users', (req, res) => {
 })
 server.get('/api/users', (req, res) => {
     const users = User.getAll()
-    res.status(200)
     if (users) {
         res.status(200).json(users)
     } else {
