@@ -29,7 +29,11 @@ const User = {
         return users.find(user => user.id === id)
     },
     delete(id) {
-
+        const user = users.find(user => user.id === id)
+        if (user) {
+            users = users.filter(u => u.id !== id)
+        }
+        return user
     },
     update(id, changes) {
 
@@ -67,10 +71,16 @@ server.get('/api/users/:id', (req, res) => {
     }
 })
 server.delete('/api/users/:id', (req, res) => {
-
+    const { id } = req.params
+    const deleted = User.delete(id)
+    if (deleted) {
+        res.status(200).json(deleted)
+    } else {
+        res.status(404).json({ errorMessage: "The user with the specified ID does not exist."})
+    }
 })
 server.put('/api/users/:id', (req, res) => {
-    
+
 })
 
 server.use('*', (req, res) => {
